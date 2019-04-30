@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+	<STUDENTS id='1' group_id='3' firstname='Max' lastname='Pain' studentcardnumber='ab23'/>
+	<STUDENTS id='2' group_id='3' firstname='Peter' lastname='Pan' studentcardnumber='bc34'/>
+	<STUDENTS id='3' group_id='3' firstname='Lux' lastname='Lugger' studentcardnumber='cd45'/>
+</dataset>

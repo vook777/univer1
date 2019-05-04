@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 public class PropertiesHolder {
 
     private static final Logger log = LogManager.getLogger(PropertiesHolder.class);
-    private static String driver;
     private static String url;
     private static String user;
     private static String password;
@@ -25,7 +24,6 @@ public class PropertiesHolder {
             throw new DaoException("Cannot load properties");
         }
         log.debug("Setting properties");
-        driver = properties.getProperty("DRIVER");
         url = properties.getProperty("URL");
         user = properties.getProperty("USER");
         password = properties.getProperty("PASSWORD");

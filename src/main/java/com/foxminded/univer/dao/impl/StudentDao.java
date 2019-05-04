@@ -7,27 +7,36 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
-import com.foxminded.univer.dao.ConnectionFactory;
+import com.foxminded.univer.dao.Dao;
 import com.foxminded.univer.dao.DaoException;
-import com.foxminded.univer.dao.StudentDao;
+import com.foxminded.univer.dao.JdbcDao;
 import com.foxminded.univer.models.Student;
 
-public class StudentDaoImpl implements StudentDao {
+public class StudentDao extends JdbcDao implements Dao<Student> {
 
-    private static final Logger log = LogManager.getLogger(StudentDaoImpl.class);
-    private ConnectionFactory connectionFactory = new ConnectionFactory();
+    private static final Logger log = LogManager.getLogger(StudentDao.class);
 
     @Override
+    public Student save(Student student) {
+        Student studentToReturn = null;
+        if (student.getId() == null) {
+            studentToReturn = create(student);
+        } else {
+            studentToReturn = update(student);
+        }
+        return studentToReturn;
+    }
+
     public Student create(Student student) {
         log.trace("Entered create() method");
         String query = "insert into students (studentcardnumber, firstname, lastname, group_id) VALUES (?, ?, ?, ?)";
         log.trace("Opening connection, preparing statement");
-        try (Connection connection = connectionFactory.getConnection();
+        try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, student.getStudentCardNumber());
             statement.setString(2, student.getFirstName());
@@ -39,7 +48,7 @@ public class StudentDaoImpl implements StudentDao {
             try (ResultSet resultSet = statement.getGeneratedKeys();) {
                 if (resultSet.next()) {
                     log.trace("Create student to return");
-                    student = extractStudentFromResultSet(resultSet);
+                    student = findById(resultSet.getInt("id")).get();
                     log.info("Created " + student);
                 }
             }
@@ -50,12 +59,11 @@ public class StudentDaoImpl implements StudentDao {
         return student;
     }
 
-    @Override
     public Student update(Student student) {
         log.trace("Entered update() method");
         String query = "update students set studentcardnumber = ?, firstname = ?, lastname = ?, group_id = ? where id = ?";
         log.trace("Opening connection, preparing statement");
-        try (Connection connection = connectionFactory.getConnection();
+        try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, student.getStudentCardNumber());
             statement.setString(2, student.getFirstName());
@@ -63,13 +71,8 @@ public class StudentDaoImpl implements StudentDao {
             statement.setInt(4, student.getGroupId());
             statement.setInt(5, student.getId());
             log.debug("Executing PreparedStatement, getting result set");
-            try (ResultSet resultSet = statement.executeQuery();) {
-                if (resultSet.next()) {
-                    log.trace("Create student to return");
-                    student = extractStudentFromResultSet(resultSet);
-                    log.trace("Student with ID " + student.getId() + " updated.");
-                }
-            }
+            statement.execute();
+            student = findById(student.getId()).get();
         } catch (SQLException e) {
             log.error("Cannot update student", e);
             throw new DaoException("Cannot update student");
@@ -78,58 +81,52 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public boolean delete(Student student) {
+    public void delete(Student student) {
         Integer studentId = student.getId();
         log.info("Deleting student ID = " + studentId);
         String query = "delete from students where id = ?";
-        boolean result = false;
         log.trace("Opening connection, preparing statement");
-        try (Connection connection = connectionFactory.getConnection();
+        try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, student.getId());
             log.debug("Executing PreparedStatement");
-            int i = statement.executeUpdate();
-            if (i == 1) {
-                result = true;
-                log.info("Student ID = " + studentId + " has been deleted.");
-            }
+            statement.executeUpdate();
+
         } catch (SQLException e) {
             log.error("Cannot delete student", e);
             throw new DaoException("Cannot delete student");
         }
-        return result;
     }
 
     @Override
-    public Student findById(Integer id) {
+    public Optional<Student> findById(Integer id) {
         log.trace("Entered findById() method");
         String query = "select * from students where id = ?";
-        Student studentToReturn = new Student();
+        Optional<Student> result = Optional.empty();
         log.trace("Opening connection, preparing statement");
-        try (Connection connection = connectionFactory.getConnection();
+        try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
             log.debug("Executing PreparedStatement, getting result set");
             try (ResultSet resultSet = statement.executeQuery();) {
                 if (resultSet.next()) {
                     log.trace("Create student to return");
-                    studentToReturn = extractStudentFromResultSet(resultSet);
+                    result = Optional.of(extractStudentFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
             log.error("Cannot find student", e);
             throw new DaoException("Cannot find student");
         }
-        return studentToReturn;
+        return result;
     }
 
-    @Override
     public List<Student> findByGroupId(Integer groupId) {
         log.trace("Entered findByGroupId() method");
         String query = "select * from students where group_id = ?";
         List<Student> studentsToReturn = new ArrayList<>();
         log.trace("Opening connection, preparing statement");
-        try (Connection connection = connectionFactory.getConnection();
+        try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, groupId);
             log.debug("Executing PreparedStatement, getting result set");
@@ -153,7 +150,7 @@ public class StudentDaoImpl implements StudentDao {
         String query = "select * from students";
         List<Student> allStudents = new ArrayList<>();
         log.trace("Opening connection, preparing statement");
-        try (Connection connection = connectionFactory.getConnection();
+        try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)) {
             log.debug("Executing PreparedStatement, getting result set");
             try (ResultSet resultSet = statement.executeQuery();) {

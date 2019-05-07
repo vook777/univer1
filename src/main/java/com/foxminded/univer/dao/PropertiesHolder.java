@@ -8,9 +8,10 @@ import org.apache.logging.log4j.Logger;
 public class PropertiesHolder {
 
     private static final Logger log = LogManager.getLogger(PropertiesHolder.class);
-    private static String url;
-    private static String user;
-    private static String password;
+    private static String URL;
+    private static String USER;
+    private static String PASSWORD;
+    private static String DRIVER;
 
     static {
         log.trace("Entered static block of PropertiesHolder class");
@@ -24,21 +25,26 @@ public class PropertiesHolder {
             throw new DaoException("Cannot load properties");
         }
         log.debug("Setting properties");
-        url = properties.getProperty("URL");
-        user = properties.getProperty("USER");
-        password = properties.getProperty("PASSWORD");
+        URL = properties.getProperty("URL");
+        USER = properties.getProperty("USER");
+        PASSWORD = properties.getProperty("PASSWORD");
+        DRIVER = properties.getProperty("DRIVER");
         log.info("Properties set");
     }
 
     public String getUrl() {
-        return url;
+        return URL;
     }
 
     public String getUser() {
-        return user;
+        return USER;
     }
 
     public String getPassword() {
-        return password;
+        return PASSWORD;
+    }
+    
+    public String getDriver() {
+        return DRIVER;
     }
 }

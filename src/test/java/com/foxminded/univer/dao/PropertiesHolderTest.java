@@ -13,7 +13,7 @@ public class PropertiesHolderTest {
         String actualUrl = propertiesHolder.getUrl();
         String actualUser = propertiesHolder.getUser();
         String actualPassword = propertiesHolder.getPassword();
-        assertEquals("jdbc:postgresql://localhost:5432/university", actualUrl);
+        assertEquals("jdbc:postgresql://localhost:5432/dbunit", actualUrl);
         assertEquals("postgres", actualUser);
         assertEquals("123tester123", actualPassword);
     }

@@ -8,9 +8,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.foxminded.univer.dao.DaoException;
+import com.foxminded.univer.dao.PropertiesHolder;
 
 public class URunner {
-    
+
     private static final Logger log = LogManager.getLogger(URunner.class);
 
     public static void main(String[] args) throws SQLException {
@@ -19,9 +20,9 @@ public class URunner {
         try (Connection connection = getConnection()) {
             System.out.println("Connection established DB name = " + connection.getMetaData().getDatabaseProductName());
             s = connection.createStatement();
-            rs = s.executeQuery("update students set group_id = 2 where id = 2");
+            rs = s.executeQuery("select * from students");
             while (rs.next()) {
-                System.out.println(rs.getString("firstname") + rs.getString("lastname"));
+                System.out.println(rs.getString("student_card_number") + " " + rs.getString("lastname"));
             }
         } catch (Exception e) {
             System.out.println("Can't connect");
@@ -31,14 +32,14 @@ public class URunner {
             rs.close();
         }
     }
-    
+
     private static Connection getConnection() {
+        PropertiesHolder ph = new PropertiesHolder();
         log.trace("Entered getConnection() method");
         Connection connection = null;
         try {
             log.trace("Getting connection");
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dbunit", "postgres",
-                    "123tester123");
+            connection = DriverManager.getConnection(ph.getUrl(), ph.getUser(), ph.getPassword());
             log.debug("Created " + connection);
         } catch (SQLException e) {
             log.error("Cannot create connection", e);

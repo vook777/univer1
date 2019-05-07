@@ -32,9 +32,9 @@ public class StudentDao extends JdbcDao implements Dao<Student> {
         return studentToReturn;
     }
 
-    public Student create(Student student) {
+    private Student create(Student student) {
         log.trace("Entered create() method");
-        String query = "insert into students (studentcardnumber, firstname, lastname, group_id) VALUES (?, ?, ?, ?)";
+        String query = "insert into students (student_card_number, firstname, lastname, group_id) VALUES (?, ?, ?, ?)";
         log.trace("Opening connection, preparing statement");
         try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -59,9 +59,9 @@ public class StudentDao extends JdbcDao implements Dao<Student> {
         return student;
     }
 
-    public Student update(Student student) {
+    private Student update(Student student) {
         log.trace("Entered update() method");
-        String query = "update students set studentcardnumber = ?, firstname = ?, lastname = ?, group_id = ? where id = ?";
+        String query = "update students set student_card_number = ?, firstname = ?, lastname = ?, group_id = ? where id = ?";
         log.trace("Opening connection, preparing statement");
         try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)) {
@@ -170,7 +170,7 @@ public class StudentDao extends JdbcDao implements Dao<Student> {
     private Student extractStudentFromResultSet(ResultSet resultSet) throws SQLException {
         Student student = new Student();
         student.setId(resultSet.getInt("id"));
-        student.setStudentCardNumber(resultSet.getString("studentcardnumber"));
+        student.setStudentCardNumber(resultSet.getString("student_card_number"));
         student.setFirstName(resultSet.getString("firstname"));
         student.setLastName(resultSet.getString("lastname"));
         student.setGroupId(resultSet.getInt("group_id"));

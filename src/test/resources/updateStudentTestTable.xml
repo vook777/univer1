@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <dataset>
-	<STUDENTS id='1' group_id='2' firstname='Max' lastname='Pain' studentcardnumber='ab23'/>
-	<STUDENTS id='2' group_id='3' firstname='Peter' lastname='Pan' studentcardnumber='bc34'/>
-	<STUDENTS id='3' group_id='3' firstname='Lux' lastname='Lugger' studentcardnumber='cd45'/>
+	<STUDENTS id='1' group_id='2' firstname='Max' lastname='Pain' student_card_number='ab23'/>
+	<STUDENTS id='2' group_id='3' firstname='Peter' lastname='Pan' student_card_number='bc34'/>
+	<STUDENTS id='3' group_id='3' firstname='Lux' lastname='Lugger' student_card_number='cd45'/>
 </dataset>

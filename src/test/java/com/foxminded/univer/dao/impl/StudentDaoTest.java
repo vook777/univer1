@@ -14,19 +14,21 @@ import org.dbunit.operation.DatabaseOperation;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.foxminded.univer.dao.PropertiesHolder;
 import com.foxminded.univer.models.Student;
 
 public class StudentDaoTest extends DBTestCase {
 
+    private PropertiesHolder propertiesHolder = new PropertiesHolder();
     private StudentDao studentDao = new StudentDao();
 
     public StudentDaoTest(String name) {
         super(name);
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, "org.postgresql.Driver");
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, propertiesHolder.getDriver());
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,
                 "jdbc:postgresql://localhost:5432/dbunit");
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, "postgres");
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, "123tester123");
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, propertiesHolder.getUser());
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, propertiesHolder.getPassword());
     }
 
     protected IDataSet getDataSet() throws Exception {
@@ -65,6 +67,7 @@ public class StudentDaoTest extends DBTestCase {
         student.setLastName("Sin");
         student.setGroupId(2);
         studentDao.save(student);
+        String[] toIgnore = {"id"};
 
         ITable actualTable = getActualTable();
 
@@ -72,7 +75,7 @@ public class StudentDaoTest extends DBTestCase {
 
         ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable,
                 expectedTable.getTableMetaData().getColumns());
-        //Assertion.assertEquals(expectedTable, filteredActualTable);
+        Assertion.assertEqualsIgnoreCols(expectedTable, filteredActualTable, toIgnore);
     }
 
     @Test

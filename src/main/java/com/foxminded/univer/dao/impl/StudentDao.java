@@ -22,7 +22,7 @@ public class StudentDao extends JdbcDao implements Dao<Student> {
     private static final Logger log = LogManager.getLogger(StudentDao.class);
 
     @Override
-    public Student save(Student student) {
+    public Student save(Student student) throws ClassNotFoundException {
         Student studentToReturn = null;
         if (student.getId() == null) {
             studentToReturn = create(student);
@@ -32,7 +32,7 @@ public class StudentDao extends JdbcDao implements Dao<Student> {
         return studentToReturn;
     }
 
-    private Student create(Student student) {
+    private Student create(Student student) throws ClassNotFoundException {
         log.trace("Entered create() method");
         String query = "insert into students (student_card_number, firstname, lastname, group_id) VALUES (?, ?, ?, ?)";
         log.trace("Opening connection, preparing statement");
@@ -59,7 +59,7 @@ public class StudentDao extends JdbcDao implements Dao<Student> {
         return student;
     }
 
-    private Student update(Student student) {
+    private Student update(Student student) throws ClassNotFoundException {
         log.trace("Entered update() method");
         String query = "update students set student_card_number = ?, firstname = ?, lastname = ?, group_id = ? where id = ?";
         log.trace("Opening connection, preparing statement");
@@ -81,7 +81,7 @@ public class StudentDao extends JdbcDao implements Dao<Student> {
     }
 
     @Override
-    public void delete(Student student) {
+    public void delete(Student student) throws ClassNotFoundException {
         Integer studentId = student.getId();
         log.info("Deleting student ID = " + studentId);
         String query = "delete from students where id = ?";
@@ -99,7 +99,7 @@ public class StudentDao extends JdbcDao implements Dao<Student> {
     }
 
     @Override
-    public Optional<Student> findById(Integer id) {
+    public Optional<Student> findById(Integer id) throws ClassNotFoundException {
         log.trace("Entered findById() method");
         String query = "select * from students where id = ?";
         Optional<Student> result = Optional.empty();
@@ -121,7 +121,7 @@ public class StudentDao extends JdbcDao implements Dao<Student> {
         return result;
     }
 
-    public List<Student> findByGroupId(Integer groupId) {
+    public List<Student> findByGroupId(Integer groupId) throws ClassNotFoundException {
         log.trace("Entered findByGroupId() method");
         String query = "select * from students where group_id = ?";
         List<Student> studentsToReturn = new ArrayList<>();
@@ -145,7 +145,7 @@ public class StudentDao extends JdbcDao implements Dao<Student> {
     }
 
     @Override
-    public List<Student> findAll() {
+    public List<Student> findAll() throws ClassNotFoundException {
         log.trace("Entered findAll() method");
         String query = "select * from students";
         List<Student> allStudents = new ArrayList<>();

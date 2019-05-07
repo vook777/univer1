@@ -17,7 +17,12 @@ public class GetStudentController extends HttpServlet {
             throws ServletException, IOException {
         Integer studentId = Integer.parseInt(request.getParameter("studentId"));
         StudentDao studentDao = new StudentDao();
-        Student studentToReturn = studentDao.findById(studentId).get();
+        Student studentToReturn = null;
+        try {
+            studentToReturn = studentDao.findById(studentId).get();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         
         request.setAttribute("student", studentToReturn);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("showStudent.jsp");

@@ -12,13 +12,14 @@ public abstract class JdbcDao {
     private static final Logger log = LogManager.getLogger(JdbcDao.class);
     private PropertiesHolder propertiesHolder = new PropertiesHolder();
 
-    public Connection getConnection() {
+    public Connection getConnection() throws ClassNotFoundException {
+        Class.forName("org.postgresql.Driver");
         log.trace("Entered getConnection() method");
         Connection connection = null;
         try {
             log.trace("Getting connection");
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dbunit", "postgres",
-                    "123tester123");
+            connection = DriverManager.getConnection(propertiesHolder.getUrl(), propertiesHolder.getUser(),
+                    propertiesHolder.getPassword());
             log.debug("Created " + connection);
         } catch (SQLException e) {
             log.error("Cannot create connection", e);

@@ -8,9 +8,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+${user.userInfo.name}
 	<%
-		Student student = (Student) request.getAttribute("student");
+		request.getAttribute("student");
 	%>
 </body>
 </html>

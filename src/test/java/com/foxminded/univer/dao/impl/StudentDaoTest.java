@@ -126,7 +126,7 @@ public class StudentDaoTest extends DBTestCase {
     }
     
     @Test
-    public void testFindById() {
+    public void testFindById() throws ClassNotFoundException {
         Student expectedStudent = new Student();
         expectedStudent.setId(2);
         expectedStudent.setFirstName("Peter");

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.foxminded.univer.dao.impl.StudentDao;
 import com.foxminded.univer.models.Student;
-// comment
+
 public class GetStudentController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

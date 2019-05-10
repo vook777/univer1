@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.foxminded.univer.dao.impl.StudentDao;
 import com.foxminded.univer.models.Student;
-
+// comment
 public class GetStudentController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -25,7 +25,6 @@ public class GetStudentController extends HttpServlet {
         }
         
         request.setAttribute("student", studentToReturn);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("showStudent.jsp");
-        requestDispatcher.forward(request, response);
+        request.getRequestDispatcher("showStudent.jsp").forward(request, response);;
     }
 }

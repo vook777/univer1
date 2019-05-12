@@ -25,6 +25,6 @@ public class GetStudentController extends HttpServlet {
         }
         
         request.setAttribute("student", studentToReturn);
-        request.getRequestDispatcher("showStudent.jsp").forward(request, response);;
+        request.getRequestDispatcher("/showStudent.jsp").forward(request, response);;
     }
 }

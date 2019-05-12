@@ -6,11 +6,11 @@
 		 
 	<display-name>Archetype Created Web Application</display-name>
 	<servlet>
-		<servlet-name>GetStudents</servlet-name>
-		<servlet-class>com.foxminded.univer.servlet.GetStudents</servlet-class>
+		<servlet-name>GetStudentController</servlet-name>
+		<servlet-class>com.foxminded.univer.servlet.GetStudentController</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>GetStudents</servlet-name>
-		<url-pattern>/getStudents</url-pattern>
+		<servlet-name>GetStudentController</servlet-name>
+		<url-pattern>/getStudent</url-pattern>
 	</servlet-mapping>
 </web-app>

@@ -8,8 +8,8 @@
 </head>
 <body>
 <a href="${prefix}/">Back</a><br>
-<c:forEach var="user" items="${requestScope.users}">
-    [ID=${user.id}] Имя:${user.name} Роль: ${user.role} Рарегистрирован: ${user.registered}<br>
+<c:forEach var="student" items="${requestScope.students}">
+    ${student}<br>
 </c:forEach>
 </body>
 </html>

@@ -8,8 +8,33 @@
 </head>
 <body>
 <a href="${prefix}/">Back</a><br>
-<c:forEach var="student" items="${requestScope.students}">
-    ${student}<br>
-</c:forEach>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Last Name</th>
+        <th>Card Number</th>
+        <th>Group ID</th>
+    </tr>
+    <c:forEach var="student" items="${requestScope.students}">
+    <tr>
+        <td style="text-align:center">
+            <c:out value="${student.id}" />
+        </td>
+        <td style="text-align:center">
+            <c:out value="${student.firstName}" />
+        </td>
+        <td style="text-align:center">
+            <c:out value="${student.lastName}" />
+        </td>
+        <td style="text-align:center">
+            <c:out value="${student.studentCardNumber}" />
+        </td>
+        <td style="text-align:center">
+            <c:out value="${student.groupId}" />
+        </td>
+    </tr>
+    </c:forEach>
+</table>
 </body>
 </html>

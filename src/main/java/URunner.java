@@ -11,7 +11,7 @@ import com.foxminded.univer.dao.DaoException;
 import com.foxminded.univer.dao.PropertiesHolder;
 
 public class URunner {
-
+///
     private static final Logger log = LogManager.getLogger(URunner.class);
 
     public static void main(String[] args) throws SQLException {

@@ -15,31 +15,30 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.foxminded.univer.dao.PropertiesHolder;
-import com.foxminded.univer.models.Student;
+import com.foxminded.univer.models.Course;
 
-public class StudentDaoTest extends DBTestCase {
+public class CourseDaoTest extends DBTestCase {
 
     private PropertiesHolder propertiesHolder = new PropertiesHolder();
-    private StudentDao studentDao = new StudentDao();
+    private CourseDao courseDao = new CourseDao();
 
-    public StudentDaoTest(String name) {
+    public CourseDaoTest(String name) {
         super(name);
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, propertiesHolder.getDriver());
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,
-                propertiesHolder.getUrl());
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, propertiesHolder.getUrl());
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, propertiesHolder.getUser());
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, propertiesHolder.getPassword());
     }
 
     protected IDataSet getDataSet() throws Exception {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-        InputStream inputFile = classLoader.getResourceAsStream("inputStudentTestTable.xml");
+        InputStream inputFile = classLoader.getResourceAsStream("inputCourseTestTable.xml");
         return new FlatXmlDataSetBuilder().build(inputFile);
     }
 
     private ITable getActualTable() throws Exception {
         IDataSet actualDataSet = getConnection().createDataSet();
-        ITable actualTable = actualDataSet.getTable("STUDENTS");
+        ITable actualTable = actualDataSet.getTable("COURSES");
         return actualTable;
     }
 
@@ -47,7 +46,7 @@ public class StudentDaoTest extends DBTestCase {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream inputFile = classLoader.getResourceAsStream(fileName);
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(inputFile);
-        ITable expectedTable = expectedDataSet.getTable("STUDENTS");
+        ITable expectedTable = expectedDataSet.getTable("COURSES");
         return expectedTable;
     }
 
@@ -60,18 +59,17 @@ public class StudentDaoTest extends DBTestCase {
     }
 
     @Test
-    public void testSaveNewStudent() throws Exception {
-        Student student = new Student();
-        student.setStudentCardNumber("ef67");
-        student.setFirstName("Lee");
-        student.setLastName("Sin");
-        student.setGroupId(2);
-        studentDao.save(student);
-        String[] toIgnore = {"id"};
+    public void testSaveNewCourse() throws Exception {
+        Course course = new Course();
+        course.setName("Geography");
+        course.setNumberOfWeeks(19);
+        course.setDescription("Geography");
+        courseDao.save(course);
+        String[] toIgnore = { "id" };
 
         ITable actualTable = getActualTable();
 
-        ITable expectedTable = getExpextedTable("addStudentTestTable.xml");
+        ITable expectedTable = getExpextedTable("addCourseTestTable.xml");
 
         ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable,
                 expectedTable.getTableMetaData().getColumns());
@@ -79,35 +77,30 @@ public class StudentDaoTest extends DBTestCase {
     }
 
     @Test
-    public void testSaveExistingStudent() throws Exception {
-        Student student = new Student();
-        student.setId(1);
-        student.setFirstName("Max");
-        student.setLastName("Pain");
-        student.setStudentCardNumber("ab23");
-        student.setGroupId(2);
-        studentDao.save(student);
+    public void testSaveExistingCourse() throws Exception {
+        Course course = new Course();
+        course.setId(1);
+        course.setName("Maths");
+        course.setNumberOfWeeks(100);
+        course.setDescription("Maths");
+        courseDao.save(course);
 
         ITable actualTable = getActualTable();
-        ITable expectedTable = getExpextedTable("updateStudentTestTable.xml");
+        ITable expectedTable = getExpextedTable("updateCourseTestTable.xml");
         ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable,
                 expectedTable.getTableMetaData().getColumns());
 
         Assertion.assertEquals(expectedTable, filteredActualTable);
     }
-    
+
     @Test
     public void testDelete() throws Exception {
-        Student student = new Student();
-        student.setId(1);
-        student.setFirstName("Max");
-        student.setLastName("Pain");
-        student.setStudentCardNumber("ab23");
-        student.setGroupId(3);
-        studentDao.delete(student);
-        
+        Course course = new Course();
+        course.setId(1);
+        courseDao.delete(course);
+
         ITable actualTable = getActualTable();
-        ITable expectedTable = getExpextedTable("deleteStudentTestTable.xml");
+        ITable expectedTable = getExpextedTable("deleteCourseTestTable.xml");
         ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable,
                 expectedTable.getTableMetaData().getColumns());
 
@@ -116,37 +109,25 @@ public class StudentDaoTest extends DBTestCase {
 
     @Test
     public void testFindAll() throws Exception {
-        List<Student> studentsList = studentDao.findAll();
+        List<Course> coursesList = courseDao.findAll();
 
         ITable actualTable = getActualTable();
-        ITable expectedTable = getExpextedTable("findAllStudentTestTable.xml");
+        ITable expectedTable = getExpextedTable("findAllCourseTestTable.xml");
 
         Assertion.assertEquals(expectedTable, actualTable);
-        Assert.assertEquals(expectedTable.getRowCount(), studentsList.size());
+        Assert.assertEquals(expectedTable.getRowCount(), coursesList.size());
     }
-    
+
     @Test
     public void testFindById() throws ClassNotFoundException {
-        Student expectedStudent = new Student();
-        expectedStudent.setId(2);
-        expectedStudent.setFirstName("Peter");
-        expectedStudent.setLastName("Pan");
-        expectedStudent.setStudentCardNumber("bc34");
-        expectedStudent.setGroupId(3);
-        
-        Student actualStudent = studentDao.findById(2).get();
-        
-        Assert.assertEquals(expectedStudent, actualStudent);               
-    }
-    
-    @Test
-    public void testFindByGroupId() throws Exception {
-        List<Student> studentsList = studentDao.findByGroupId(3);
-        
-        ITable actualTable = getActualTable();
-        ITable expectedTable = getExpextedTable("findAllStudentTestTable.xml");
-        
-        Assertion.assertEquals(expectedTable, actualTable);
-        Assert.assertEquals(expectedTable.getRowCount(), studentsList.size());
+        Course expectedCourse = new Course();
+        expectedCourse.setId(1);
+        expectedCourse.setName("Maths");
+        expectedCourse.setNumberOfWeeks(20);
+        expectedCourse.setDescription("Maths");
+
+        Course actualCourse = courseDao.findById(1).get();
+
+        Assert.assertEquals(expectedCourse, actualCourse);
     }
 }

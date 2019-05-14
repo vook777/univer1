@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+	<FACULTIES id='2' faculty_name='Biology'/>
+	<FACULTIES id='3' faculty_name='History'/>
+</dataset>

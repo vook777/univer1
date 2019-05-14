@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+	<COURSES id='1' name='Maths' number_of_weeks='20' description='Maths'/>
+	<COURSES id='2' name='Biology' number_of_weeks='25' description='Biology'/>
+	<COURSES id='3' name='History' number_of_weeks='28' description='History'/>
+	<COURSES id='4' name='Geography' number_of_weeks='19' description='Geography'/>
+</dataset>

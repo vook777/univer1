@@ -15,14 +15,14 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.foxminded.univer.dao.PropertiesHolder;
-import com.foxminded.univer.models.Student;
+import com.foxminded.univer.models.Auditorium;
 
-public class StudentDaoTest extends DBTestCase {
+public class AuditoriumDaoTest extends DBTestCase {
 
     private PropertiesHolder propertiesHolder = new PropertiesHolder();
-    private StudentDao studentDao = new StudentDao();
+    private AuditoriumDao auditoriumDao = new AuditoriumDao();
 
-    public StudentDaoTest(String name) {
+    public AuditoriumDaoTest(String name) {
         super(name);
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, propertiesHolder.getDriver());
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,
@@ -33,13 +33,13 @@ public class StudentDaoTest extends DBTestCase {
 
     protected IDataSet getDataSet() throws Exception {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-        InputStream inputFile = classLoader.getResourceAsStream("inputStudentTestTable.xml");
+        InputStream inputFile = classLoader.getResourceAsStream("inputAuditoriumTestTable.xml");
         return new FlatXmlDataSetBuilder().build(inputFile);
     }
 
     private ITable getActualTable() throws Exception {
         IDataSet actualDataSet = getConnection().createDataSet();
-        ITable actualTable = actualDataSet.getTable("STUDENTS");
+        ITable actualTable = actualDataSet.getTable("AUDITORIUMS");
         return actualTable;
     }
 
@@ -47,7 +47,7 @@ public class StudentDaoTest extends DBTestCase {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream inputFile = classLoader.getResourceAsStream(fileName);
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(inputFile);
-        ITable expectedTable = expectedDataSet.getTable("STUDENTS");
+        ITable expectedTable = expectedDataSet.getTable("AUDITORIUMS");
         return expectedTable;
     }
 
@@ -60,18 +60,16 @@ public class StudentDaoTest extends DBTestCase {
     }
 
     @Test
-    public void testSaveNewStudent() throws Exception {
-        Student student = new Student();
-        student.setStudentCardNumber("ef67");
-        student.setFirstName("Lee");
-        student.setLastName("Sin");
-        student.setGroupId(2);
-        studentDao.save(student);
+    public void testSaveNewAuditorium() throws Exception {
+        Auditorium auditorium = new Auditorium();
+        auditorium.setName("A4");
+        auditorium.setCapacity(30);
+        auditoriumDao.save(auditorium);
         String[] toIgnore = {"id"};
 
         ITable actualTable = getActualTable();
 
-        ITable expectedTable = getExpextedTable("addStudentTestTable.xml");
+        ITable expectedTable = getExpextedTable("addAuditoriumTestTable.xml");
 
         ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable,
                 expectedTable.getTableMetaData().getColumns());
@@ -79,17 +77,15 @@ public class StudentDaoTest extends DBTestCase {
     }
 
     @Test
-    public void testSaveExistingStudent() throws Exception {
-        Student student = new Student();
-        student.setId(1);
-        student.setFirstName("Max");
-        student.setLastName("Pain");
-        student.setStudentCardNumber("ab23");
-        student.setGroupId(2);
-        studentDao.save(student);
+    public void testSaveExistingAuditorium() throws Exception {
+        Auditorium auditorium = new Auditorium();
+        auditorium.setId(1);
+        auditorium.setName("A1");
+        auditorium.setCapacity(60);
+        auditoriumDao.save(auditorium);
 
         ITable actualTable = getActualTable();
-        ITable expectedTable = getExpextedTable("updateStudentTestTable.xml");
+        ITable expectedTable = getExpextedTable("updateAuditoriumTestTable.xml");
         ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable,
                 expectedTable.getTableMetaData().getColumns());
 
@@ -98,16 +94,14 @@ public class StudentDaoTest extends DBTestCase {
     
     @Test
     public void testDelete() throws Exception {
-        Student student = new Student();
-        student.setId(1);
-        student.setFirstName("Max");
-        student.setLastName("Pain");
-        student.setStudentCardNumber("ab23");
-        student.setGroupId(3);
-        studentDao.delete(student);
+        Auditorium auditorium = new Auditorium();
+        auditorium.setId(1);
+        auditorium.setName("A1");
+        auditorium.setCapacity(30);
+        auditoriumDao.delete(auditorium);
         
         ITable actualTable = getActualTable();
-        ITable expectedTable = getExpextedTable("deleteStudentTestTable.xml");
+        ITable expectedTable = getExpextedTable("deleteAuditoriumTestTable.xml");
         ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable,
                 expectedTable.getTableMetaData().getColumns());
 
@@ -116,37 +110,24 @@ public class StudentDaoTest extends DBTestCase {
 
     @Test
     public void testFindAll() throws Exception {
-        List<Student> studentsList = studentDao.findAll();
+        List<Auditorium> auditoriumsList = auditoriumDao.findAll();
 
         ITable actualTable = getActualTable();
-        ITable expectedTable = getExpextedTable("findAllStudentTestTable.xml");
+        ITable expectedTable = getExpextedTable("findAllAuditoriumTestTable.xml");
 
         Assertion.assertEquals(expectedTable, actualTable);
-        Assert.assertEquals(expectedTable.getRowCount(), studentsList.size());
+        Assert.assertEquals(expectedTable.getRowCount(), auditoriumsList.size());
     }
     
     @Test
     public void testFindById() throws ClassNotFoundException {
-        Student expectedStudent = new Student();
-        expectedStudent.setId(2);
-        expectedStudent.setFirstName("Peter");
-        expectedStudent.setLastName("Pan");
-        expectedStudent.setStudentCardNumber("bc34");
-        expectedStudent.setGroupId(3);
+        Auditorium expectedAuditorium = new Auditorium();
+        expectedAuditorium.setId(1);
+        expectedAuditorium.setName("A1");
+        expectedAuditorium.setCapacity(30);
         
-        Student actualStudent = studentDao.findById(2).get();
+        Auditorium actualAuditorium = auditoriumDao.findById(1).get();
         
-        Assert.assertEquals(expectedStudent, actualStudent);               
-    }
-    
-    @Test
-    public void testFindByGroupId() throws Exception {
-        List<Student> studentsList = studentDao.findByGroupId(3);
-        
-        ITable actualTable = getActualTable();
-        ITable expectedTable = getExpextedTable("findAllStudentTestTable.xml");
-        
-        Assertion.assertEquals(expectedTable, actualTable);
-        Assert.assertEquals(expectedTable.getRowCount(), studentsList.size());
+        Assert.assertEquals(expectedAuditorium, actualAuditorium);               
     }
 }

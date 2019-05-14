@@ -8,20 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.foxminded.univer.dao.impl.StudentDao;
+import com.foxminded.univer.dao.impl.TeacherDao;
 
-@WebServlet("/students")
-public class GetStudents extends HttpServlet {
-    
-    private StudentDao studentDao = new StudentDao();
+@WebServlet("/teachers")
+public class GetTeachers extends HttpServlet {
+
+    private TeacherDao teacherDao = new TeacherDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            req.setAttribute("students", studentDao.findAll());
+            req.setAttribute("teachers", teacherDao.findAll());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        getServletContext().getRequestDispatcher("/showAllStudents.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/showAllTeachers.jsp").forward(req, resp);
     }
 }

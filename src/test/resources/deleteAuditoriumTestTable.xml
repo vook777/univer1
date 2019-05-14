@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+	<AUDITORIUMS id='2' name='A2' capacity='50'/>
+	<AUDITORIUMS id='3' name='A3' capacity='100'/>
+</dataset>

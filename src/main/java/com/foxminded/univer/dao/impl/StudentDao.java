@@ -70,7 +70,7 @@ public class StudentDao extends JdbcDao implements Dao<Student> {
             statement.setString(3, student.getLastName());
             statement.setInt(4, student.getGroupId());
             statement.setInt(5, student.getId());
-            log.debug("Executing PreparedStatement, getting result set");
+            log.debug("Executing PreparedStatement");
             statement.execute();
             student = findById(student.getId()).get();
         } catch (SQLException e) {

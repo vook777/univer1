@@ -20,7 +20,7 @@ public class GetGroups extends HttpServlet {
         try {
             req.setAttribute("groups", groupDao.findAll());
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }
         getServletContext().getRequestDispatcher("/showAllGroups.jsp").forward(req, resp);
     }

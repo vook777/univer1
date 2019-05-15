@@ -1,14 +1,12 @@
 package com.foxminded.univer.dao.impl;
 
 import java.io.InputStream;
-import java.util.List;
 
 import org.dbunit.Assertion;
 import org.dbunit.DBTestCase;
 import org.dbunit.PropertiesBasedJdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
-import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Assert;
@@ -19,15 +17,93 @@ import com.foxminded.univer.models.Course;
 
 public class CourseDaoTest extends DBTestCase {
 
-    private PropertiesHolder propertiesHolder = new PropertiesHolder();
     private CourseDao courseDao = new CourseDao();
 
     public CourseDaoTest(String name) {
         super(name);
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, propertiesHolder.getDriver());
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, propertiesHolder.getUrl());
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, propertiesHolder.getUser());
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, propertiesHolder.getPassword());
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, PropertiesHolder.DRIVER);
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, PropertiesHolder.URL);
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, PropertiesHolder.USER);
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, PropertiesHolder.PASSWORD);
+    }
+
+    @Test
+    public void testSaveNewCourse() throws Exception {
+        // Given
+        String[] toIgnore = { "id" };
+        ITable expectedTable = getExpectedTable("addCourseTestTable.xml");
+        Course course = new Course();
+        course.setName("Geography");
+        course.setNumberOfWeeks(19);
+        course.setDescription("Geography");
+
+        // When
+        courseDao.save(course);
+        ITable actualTable = getActualTable();
+
+        // Then
+        Assertion.assertEqualsIgnoreCols(expectedTable, actualTable, toIgnore);
+    }
+
+    @Test
+    public void testSaveExistingCourse() throws Exception {
+        // Given
+        ITable expectedTable = getExpectedTable("updateCourseTestTable.xml");
+        Course course = new Course();
+        course.setId(1);
+        course.setName("Maths");
+        course.setNumberOfWeeks(100);
+        course.setDescription("Maths");
+
+        // When
+        courseDao.save(course);
+        ITable actualTable = getActualTable();
+
+        // Then
+        Assertion.assertEquals(expectedTable, actualTable);
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        // Given
+        ITable expectedTable = getExpectedTable("deleteCourseTestTable.xml");
+        Course course = new Course();
+        course.setId(1);
+
+        // When
+        courseDao.delete(course);
+        ITable actualTable = getActualTable();
+
+        // Then
+        Assertion.assertEquals(expectedTable, actualTable);
+    }
+
+    @Test
+    public void testFindAll() throws Exception {
+        // Given
+        ITable expectedTable = getExpectedTable("findAllCourseTestTable.xml");
+
+        // When
+        ITable actualTable = getActualTable();
+
+        // Then
+        Assertion.assertEquals(expectedTable, actualTable);
+    }
+
+    @Test
+    public void testFindById() throws ClassNotFoundException {
+        // Given
+        Course expectedCourse = new Course();
+        expectedCourse.setId(1);
+        expectedCourse.setName("Maths");
+        expectedCourse.setNumberOfWeeks(20);
+        expectedCourse.setDescription("Maths");
+
+        // When
+        Course actualCourse = courseDao.findById(1).get();
+
+        // Then
+        Assert.assertEquals(expectedCourse, actualCourse);
     }
 
     protected IDataSet getDataSet() throws Exception {
@@ -42,7 +118,7 @@ public class CourseDaoTest extends DBTestCase {
         return actualTable;
     }
 
-    private ITable getExpextedTable(String fileName) throws Exception {
+    private ITable getExpectedTable(String fileName) throws Exception {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream inputFile = classLoader.getResourceAsStream(fileName);
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(inputFile);
@@ -56,78 +132,5 @@ public class CourseDaoTest extends DBTestCase {
 
     protected DatabaseOperation getTearDownOperation() throws Exception {
         return DatabaseOperation.CLEAN_INSERT;
-    }
-
-    @Test
-    public void testSaveNewCourse() throws Exception {
-        Course course = new Course();
-        course.setName("Geography");
-        course.setNumberOfWeeks(19);
-        course.setDescription("Geography");
-        courseDao.save(course);
-        String[] toIgnore = { "id" };
-
-        ITable actualTable = getActualTable();
-
-        ITable expectedTable = getExpextedTable("addCourseTestTable.xml");
-
-        ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable,
-                expectedTable.getTableMetaData().getColumns());
-        Assertion.assertEqualsIgnoreCols(expectedTable, filteredActualTable, toIgnore);
-    }
-
-    @Test
-    public void testSaveExistingCourse() throws Exception {
-        Course course = new Course();
-        course.setId(1);
-        course.setName("Maths");
-        course.setNumberOfWeeks(100);
-        course.setDescription("Maths");
-        courseDao.save(course);
-
-        ITable actualTable = getActualTable();
-        ITable expectedTable = getExpextedTable("updateCourseTestTable.xml");
-        ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable,
-                expectedTable.getTableMetaData().getColumns());
-
-        Assertion.assertEquals(expectedTable, filteredActualTable);
-    }
-
-    @Test
-    public void testDelete() throws Exception {
-        Course course = new Course();
-        course.setId(1);
-        courseDao.delete(course);
-
-        ITable actualTable = getActualTable();
-        ITable expectedTable = getExpextedTable("deleteCourseTestTable.xml");
-        ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable,
-                expectedTable.getTableMetaData().getColumns());
-
-        Assertion.assertEquals(expectedTable, filteredActualTable);
-    }
-
-    @Test
-    public void testFindAll() throws Exception {
-        List<Course> coursesList = courseDao.findAll();
-
-        ITable actualTable = getActualTable();
-        ITable expectedTable = getExpextedTable("findAllCourseTestTable.xml");
-
-        Assertion.assertEquals(expectedTable, actualTable);
-        Assert.assertEquals(expectedTable.getRowCount(), coursesList.size());
-    }
-
-    @Test
-    public void testFindById() throws ClassNotFoundException {
-        Course expectedCourse = new Course();
-        expectedCourse.setId(1);
-        expectedCourse.setName("Maths");
-        expectedCourse.setNumberOfWeeks(20);
-        expectedCourse.setDescription("Maths");
-
-        Course actualCourse = courseDao.findById(1).get();
-
-        Assert.assertEquals(expectedCourse, actualCourse);
     }
 }

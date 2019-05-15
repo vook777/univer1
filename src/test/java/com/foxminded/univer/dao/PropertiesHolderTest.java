@@ -6,13 +6,11 @@ import org.junit.Test;
 
 public class PropertiesHolderTest {
 
-    private PropertiesHolder propertiesHolder = new PropertiesHolder();
-
     @Test
-    public void test() {
-        String actualUrl = propertiesHolder.getUrl();
-        String actualUser = propertiesHolder.getUser();
-        String actualPassword = propertiesHolder.getPassword();
+    public void returnsCorrectPrametersTest() {
+        String actualUrl = PropertiesHolder.URL;
+        String actualUser = PropertiesHolder.USER;
+        String actualPassword = PropertiesHolder.PASSWORD;
         assertEquals("jdbc:postgresql://localhost:5432/dbunit", actualUrl);
         assertEquals("postgres", actualUser);
         assertEquals("123tester123", actualPassword);

@@ -8,17 +8,21 @@ import org.apache.logging.log4j.Logger;
 public class PropertiesHolder {
 
     private static final Logger log = LogManager.getLogger(PropertiesHolder.class);
-    private static String URL;
-    private static String USER;
-    private static String PASSWORD;
-    private static String DRIVER;
+    private static final String PROPERTIES = "connection.properties";
+    
+    public static String URL;
+    public static String USER;
+    public static String PASSWORD;
+    public static String DRIVER;
+    
+    private PropertiesHolder() {}
 
     static {
         log.trace("Entered static block of PropertiesHolder class");
         Properties properties = new Properties();
         try {
             log.debug("Loading properties from file");
-            properties.load(PropertiesHolder.class.getClassLoader().getResourceAsStream("connection.properties"));
+            properties.load(PropertiesHolder.class.getClassLoader().getResourceAsStream(PROPERTIES));
             log.info("Loaded " + properties);
         } catch (Exception e) {
             log.error("Cannot load properties", e);
@@ -30,21 +34,5 @@ public class PropertiesHolder {
         PASSWORD = properties.getProperty("PASSWORD");
         DRIVER = properties.getProperty("DRIVER");
         log.info("Properties set");
-    }
-
-    public String getUrl() {
-        return URL;
-    }
-
-    public String getUser() {
-        return USER;
-    }
-
-    public String getPassword() {
-        return PASSWORD;
-    }
-    
-    public String getDriver() {
-        return DRIVER;
     }
 }

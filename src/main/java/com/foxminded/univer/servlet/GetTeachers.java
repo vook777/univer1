@@ -20,7 +20,7 @@ public class GetTeachers extends HttpServlet {
         try {
             req.setAttribute("teachers", teacherDao.findAll());
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }
         getServletContext().getRequestDispatcher("/showAllTeachers.jsp").forward(req, resp);
     }

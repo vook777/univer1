@@ -20,7 +20,7 @@ public class GetAuditoriums extends HttpServlet {
         try {
             req.setAttribute("auditoriums", auditoriumDao.findAll());
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }
         getServletContext().getRequestDispatcher("/showAllAuditoriums.jsp").forward(req, resp);
     }

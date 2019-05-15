@@ -1,14 +1,12 @@
 package com.foxminded.univer.dao.impl;
 
 import java.io.InputStream;
-import java.util.List;
 
 import org.dbunit.Assertion;
 import org.dbunit.DBTestCase;
 import org.dbunit.PropertiesBasedJdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
-import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Assert;
@@ -19,15 +17,90 @@ import com.foxminded.univer.models.Group;
 
 public class GroupDaoTest extends DBTestCase {
 
-    private PropertiesHolder propertiesHolder = new PropertiesHolder();
     private GroupDao groupDao = new GroupDao();
 
     public GroupDaoTest(String name) {
         super(name);
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, propertiesHolder.getDriver());
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, propertiesHolder.getUrl());
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, propertiesHolder.getUser());
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, propertiesHolder.getPassword());
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, PropertiesHolder.DRIVER);
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, PropertiesHolder.URL);
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, PropertiesHolder.USER);
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, PropertiesHolder.PASSWORD);
+    }
+
+    @Test
+    public void testSaveNewGroup() throws Exception {
+        // Given
+        String[] toIgnore = { "id" };
+        ITable expectedTable = getExpectedTable("addGroupTestTable.xml");
+        Group group = new Group();
+        group.setName("G1");
+        group.setFacultyId(4);
+
+        // When
+        groupDao.save(group);
+        ITable actualTable = getActualTable();
+
+        // Then
+        Assertion.assertEqualsIgnoreCols(expectedTable, actualTable, toIgnore);
+    }
+
+    @Test
+    public void testSaveExistingGroup() throws Exception {
+        // Given
+        ITable expectedTable = getExpectedTable("updateGroupTestTable.xml");
+        Group group = new Group();
+        group.setId(1);
+        group.setName("P1");
+        group.setFacultyId(1);
+
+        // When
+        groupDao.save(group);
+        ITable actualTable = getActualTable();
+
+        // Then
+        Assertion.assertEquals(expectedTable, actualTable);
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        // Given
+        ITable expectedTable = getExpectedTable("deleteGroupTestTable.xml");
+        Group group = new Group();
+        group.setId(1);
+
+        // When
+        groupDao.delete(group);
+        ITable actualTable = getActualTable();
+
+        // Then
+        Assertion.assertEquals(expectedTable, actualTable);
+    }
+
+    @Test
+    public void testFindAll() throws Exception {
+        // Given
+        ITable expectedTable = getExpectedTable("findAllGroupTestTable.xml");
+
+        // When
+        ITable actualTable = getActualTable();
+
+        // Then
+        Assertion.assertEquals(expectedTable, actualTable);
+    }
+
+    @Test
+    public void testFindById() throws ClassNotFoundException {
+        // Given
+        Group expectedGroup = new Group();
+        expectedGroup.setId(1);
+        expectedGroup.setName("M1");
+        expectedGroup.setFacultyId(1);
+
+        // When
+        Group actualGroup = groupDao.findById(1).get();
+
+        // Then
+        Assert.assertEquals(expectedGroup, actualGroup);
     }
 
     protected IDataSet getDataSet() throws Exception {
@@ -42,7 +115,7 @@ public class GroupDaoTest extends DBTestCase {
         return actualTable;
     }
 
-    private ITable getExpextedTable(String fileName) throws Exception {
+    private ITable getExpectedTable(String fileName) throws Exception {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream inputFile = classLoader.getResourceAsStream(fileName);
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(inputFile);
@@ -56,75 +129,5 @@ public class GroupDaoTest extends DBTestCase {
 
     protected DatabaseOperation getTearDownOperation() throws Exception {
         return DatabaseOperation.CLEAN_INSERT;
-    }
-
-    @Test
-    public void testSaveNewGroup() throws Exception {
-        Group group = new Group();
-        group.setName("G1");
-        group.setFacultyId(4);
-        groupDao.save(group);
-        String[] toIgnore = { "id" };
-
-        ITable actualTable = getActualTable();
-
-        ITable expectedTable = getExpextedTable("addGroupTestTable.xml");
-
-        ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable,
-                expectedTable.getTableMetaData().getColumns());
-        Assertion.assertEqualsIgnoreCols(expectedTable, filteredActualTable, toIgnore);
-    }
-
-    @Test
-    public void testSaveExistingGroup() throws Exception {
-        Group group = new Group();
-        group.setId(1);
-        group.setName("P1");
-        group.setFacultyId(1);
-        groupDao.save(group);
-
-        ITable actualTable = getActualTable();
-        ITable expectedTable = getExpextedTable("updateGroupTestTable.xml");
-        ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable,
-                expectedTable.getTableMetaData().getColumns());
-
-        Assertion.assertEquals(expectedTable, filteredActualTable);
-    }
-
-    @Test
-    public void testDelete() throws Exception {
-        Group group = new Group();
-        group.setId(1);
-        groupDao.delete(group);
-
-        ITable actualTable = getActualTable();
-        ITable expectedTable = getExpextedTable("deleteGroupTestTable.xml");
-        ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable,
-                expectedTable.getTableMetaData().getColumns());
-
-        Assertion.assertEquals(expectedTable, filteredActualTable);
-    }
-
-    @Test
-    public void testFindAll() throws Exception {
-        List<Group> groupsList = groupDao.findAll();
-
-        ITable actualTable = getActualTable();
-        ITable expectedTable = getExpextedTable("findAllGroupTestTable.xml");
-
-        Assertion.assertEquals(expectedTable, actualTable);
-        Assert.assertEquals(expectedTable.getRowCount(), groupsList.size());
-    }
-
-    @Test
-    public void testFindById() throws ClassNotFoundException {
-        Group expectedGroup = new Group();
-        expectedGroup.setId(1);
-        expectedGroup.setName("M1");
-        expectedGroup.setFacultyId(1);
-
-        Group actualGroup = groupDao.findById(1).get();
-
-        Assert.assertEquals(expectedGroup, actualGroup);
     }
 }

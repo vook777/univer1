@@ -22,6 +22,6 @@ public class GetAuditoriums extends HttpServlet {
         } catch (ClassNotFoundException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }
-        getServletContext().getRequestDispatcher("/showAllAuditoriums.jsp").forward(req, resp);
+        req.getRequestDispatcher("/showAllAuditoriums.jsp").forward(req, resp);
     }
 }

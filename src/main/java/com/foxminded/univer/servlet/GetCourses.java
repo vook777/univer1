@@ -22,6 +22,6 @@ public class GetCourses extends HttpServlet {
         } catch (ClassNotFoundException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }
-        getServletContext().getRequestDispatcher("/showAllCourses.jsp").forward(req, resp);
+        req.getRequestDispatcher("/showAllCourses.jsp").forward(req, resp);
     }
 }

@@ -22,6 +22,6 @@ public class GetFaculties extends HttpServlet {
         } catch (ClassNotFoundException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }
-        getServletContext().getRequestDispatcher("/showAllFaculties.jsp").forward(req, resp);
+        req.getRequestDispatcher("/showAllFaculties.jsp").forward(req, resp);
     }
 }

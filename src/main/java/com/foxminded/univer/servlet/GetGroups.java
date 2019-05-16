@@ -22,6 +22,6 @@ public class GetGroups extends HttpServlet {
         } catch (ClassNotFoundException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }
-        getServletContext().getRequestDispatcher("/showAllGroups.jsp").forward(req, resp);
+        req.getRequestDispatcher("/showAllGroups.jsp").forward(req, resp);
     }
 }

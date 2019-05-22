@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.foxminded.univer.servlet.auditorium.GetAuditoriums;
+
 public class GetAuditoriumsTest extends Mockito {
 
-    private String path = "/showAllAuditoriums.jsp";
+    private String path = "/auditorium/showAllAuditoriums.jsp";
 
     @Test
     public void test() throws ServletException, IOException {

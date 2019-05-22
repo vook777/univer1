@@ -1,4 +1,4 @@
-package com.foxminded.univer.servlet;
+package com.foxminded.univer.servlet.auditorium;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.foxminded.univer.dao.impl.AuditoriumDao;
 
-@WebServlet("/auditoriums")
+@WebServlet("/auditoriumShowAll")
 public class GetAuditoriums extends HttpServlet {
 
     private AuditoriumDao auditoriumDao = new AuditoriumDao();
@@ -22,6 +22,6 @@ public class GetAuditoriums extends HttpServlet {
         } catch (ClassNotFoundException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }
-        req.getRequestDispatcher("/showAllAuditoriums.jsp").forward(req, resp);
+        req.getRequestDispatcher("/auditorium/showAllAuditoriums.jsp").forward(req, resp);
     }
 }

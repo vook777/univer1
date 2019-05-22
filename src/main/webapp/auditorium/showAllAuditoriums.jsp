@@ -7,7 +7,7 @@
     <c:set var="prefix" value="${pageContext.request.contextPath}"/>
 </head>
 <body>
-<a href="${prefix}/">Back</a><br>
+<a href="${prefix}/auditorium/auditoriumIndex.jsp">Back</a><br>
 <table border="1">
     <tr>
         <th>ID</th>

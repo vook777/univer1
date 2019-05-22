@@ -6,12 +6,12 @@
     <c:set var="prefix" value="${pageContext.request.contextPath}"/>
 </head>
 <body>
-	<a href="${prefix}/auditoriums">Auditoriums</a>
-	<a href="${prefix}/courses">Courses</a>
-	<a href="${prefix}/faculties">Faculties</a>
-	<a href="${prefix}/groups">Groups</a>
-	<a href="${prefix}/lectures">Lectures</a>
-	<a href="${prefix}/students">Students</a>
-	<a href="${prefix}/teachers">Teachers</a>
+	<a href="${prefix}/auditorium/auditoriumIndex.jsp">Auditoriums</a>
+	<a href="${prefix}/course/courseIndex.jsp">Courses</a>
+	<a href="${prefix}/faculty/facultyIndex.jsp">Faculties</a>
+	<a href="${prefix}/group/groupIndex.jsp">Groups</a>
+	<a href="${prefix}/lecture/lectureIndex.jsp">Lectures</a>
+	<a href="${prefix}/student/studentIndex.jsp">Students</a>
+	<a href="${prefix}/teacher/teacherIndex.jsp">Teachers</a>
 </body>
 </html>

@@ -60,6 +60,6 @@ public class Faculty {
 
     @Override
     public String toString() {
-        return "Faculty [id=" + id + ", name=" + name + "]";
+        return "Faculty [ID= " + id + ", Name= " + name + "]";
     }
 }

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.foxminded.univer.servlet.course.GetCourses;
+
 public class GetCoursesTest extends Mockito {
 
     private String path = "/showAllCourses.jsp";

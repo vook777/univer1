@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>Home page</title>
+    <title>All Auditoriums</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <c:set var="prefix" value="${pageContext.request.contextPath}"/>
 </head>

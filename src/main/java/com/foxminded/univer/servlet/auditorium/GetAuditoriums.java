@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.foxminded.univer.dao.impl.AuditoriumDao;
 
-@WebServlet("/auditoriumShowAll")
+@WebServlet("/showAllAuditoriums")
 public class GetAuditoriums extends HttpServlet {
 
     private AuditoriumDao auditoriumDao = new AuditoriumDao();

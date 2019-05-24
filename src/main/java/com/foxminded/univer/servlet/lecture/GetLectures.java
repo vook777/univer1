@@ -1,4 +1,4 @@
-package com.foxminded.univer.servlet;
+package com.foxminded.univer.servlet.lecture;
 
 import java.io.IOException;
 
@@ -8,20 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.foxminded.univer.dao.impl.FacultyDao;
+import com.foxminded.univer.dao.impl.LectureDao;
 
-@WebServlet("/faculties")
-public class GetFaculties extends HttpServlet {
+@WebServlet("/showAllLectures")
+public class GetLectures extends HttpServlet {
 
-    private FacultyDao facultyDao = new FacultyDao();
+    private LectureDao lectureDao = new LectureDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            req.setAttribute("faculties", facultyDao.findAll());
+            req.setAttribute("lectures", lectureDao.findAll());
         } catch (ClassNotFoundException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }
-        req.getRequestDispatcher("/showAllFaculties.jsp").forward(req, resp);
+        req.getRequestDispatcher("/lecture/showAllLectures.jsp").forward(req, resp);
     }
 }

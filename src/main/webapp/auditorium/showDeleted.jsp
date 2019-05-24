@@ -9,6 +9,7 @@
 <body>
 <a href="${prefix}/auditorium/deleteAuditorium.jsp">Back</a><br>
 <br>
-	${result}
+	Auditorium deleted: <br><br>
+	${deletedAuditorium}
 </body>
 </html>

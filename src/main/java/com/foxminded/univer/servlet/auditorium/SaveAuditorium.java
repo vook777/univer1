@@ -20,7 +20,7 @@ public class SaveAuditorium extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		Auditorium auditoriumToSave = new Auditorium();
-		if (req.getParameter("id") == null) {
+		if (req.getParameter("id").contentEquals("")) {
 			auditoriumToSave.setId(null);
 		} else {
 			auditoriumToSave.setId(Integer.parseInt(req.getParameter("id")));

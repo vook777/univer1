@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.foxminded.univer.dao.impl.AuditoriumDao;
+import com.foxminded.univer.models.Auditorium;
 
 @WebServlet("/deleteAuditorium")
 public class DeleteAuditorium extends HttpServlet {
@@ -20,8 +21,9 @@ public class DeleteAuditorium extends HttpServlet {
 
 		Integer id = Integer.parseInt(req.getParameter("auditoriumId"));
 		try {
-			auditoriumDao.delete(auditoriumDao.findById(id).get());
-			req.setAttribute("result", "Auditorium ID = "+ id + " deleted.");
+			Auditorium aduditoriumToDelete = auditoriumDao.findById(id).get();
+			auditoriumDao.delete(aduditoriumToDelete);
+			req.setAttribute("deletedAuditorium", aduditoriumToDelete);
 		} catch (ClassNotFoundException e) {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 		}

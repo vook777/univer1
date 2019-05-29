@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.foxminded.univer.dao.impl.FacultyDao;
 import com.foxminded.univer.dao.impl.GroupDao;
 import com.foxminded.univer.models.Group;
 

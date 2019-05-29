@@ -8,8 +8,8 @@
 <body>
 	<a href="${prefix}/">Back</a>
 	<br><br>
-	<a href="${prefix}/group/saveGroup.jsp">Save</a>
-	<a href="${prefix}/group/deleteGroup.jsp">Delete</a>
+	<a href="${prefix}/saveGroupForm">Save</a>
+	<a href="${prefix}/deleteGroupForm">Delete</a>
 	<a href="${prefix}/group/findGroup.jsp">Find</a>
 	<a href="${prefix}/showAllGroups">Show All</a>
 </body>

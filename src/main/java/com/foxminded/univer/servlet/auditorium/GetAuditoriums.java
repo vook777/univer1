@@ -16,7 +16,7 @@ public class GetAuditoriums extends HttpServlet {
     private AuditoriumDao auditoriumDao = new AuditoriumDao();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             req.setAttribute("auditoriums", auditoriumDao.findAll());
         } catch (ClassNotFoundException e) {

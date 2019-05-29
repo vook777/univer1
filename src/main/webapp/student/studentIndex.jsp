@@ -8,8 +8,8 @@
 <body>
 	<a href="${prefix}/">Back</a>
 	<br><br>
-	<a href="${prefix}/student/saveStudent.jsp">Save</a>
-	<a href="${prefix}/student/deleteStudent.jsp">Delete</a>
+	<a href="${prefix}/saveStudentForm">Save</a>
+	<a href="${prefix}/deleteStudentForm">Delete</a>
 	<a href="${prefix}/student/findStudent.jsp">Find</a>
 	<a href="${prefix}/showAllStudents">Show All</a>
 </body>

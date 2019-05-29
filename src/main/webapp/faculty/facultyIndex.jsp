@@ -9,7 +9,7 @@
 	<a href="${prefix}/">Back</a>
 	<br><br>
 	<a href="${prefix}/faculty/saveFaculty.jsp">Save</a>
-	<a href="${prefix}/faculty/deleteFaculty.jsp">Delete</a>
+	<a href="${prefix}/deleteFacultyForm">Delete</a>
 	<a href="${prefix}/faculty/findFaculty.jsp">Find</a>
 	<a href="${prefix}/showAllFaculties">Show All</a>
 </body>

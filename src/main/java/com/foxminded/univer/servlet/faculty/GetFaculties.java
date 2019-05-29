@@ -16,7 +16,7 @@ public class GetFaculties extends HttpServlet {
     private FacultyDao facultyDao = new FacultyDao();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             req.setAttribute("faculties", facultyDao.findAll());
         } catch (ClassNotFoundException e) {

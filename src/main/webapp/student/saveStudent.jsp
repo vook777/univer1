@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
 <meta charset="ISO-8859-1">
@@ -14,7 +15,12 @@ Please enter student details:<br>
 	Name: <input type="text" name="firstName">
 	Last Name: <input type="text" name="lastName">
 	<br><br>
-	Group ID: <input type="text" name="groupId">
+	Group: 
+		<select name="groupId">
+			<c:forEach var="group" items="${requestScope.groups}">
+				<option value="${group.id}">${group.name}</option>
+			</c:forEach>
+		</select>
 	Card Number: <input type="text" name="studentCardNumber">
 	<br><br>
 	<input type="submit">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
 <meta charset="ISO-8859-1">
@@ -13,8 +14,12 @@ Please enter teacher details:<br>
 	ID: <input type="text" name="id">
 	Name: <input type="text" name="firstName">
 	Last Name: <input type="text" name="lastName">
-	<br><br>
-	Faculty ID: <input type="text" name="facultyId">
+	Faculty: 
+		<select name="facultyId">
+			<c:forEach var="faculty" items="${requestScope.faculties}">
+				<option value="${faculty.id}">${faculty.name}</option>
+			</c:forEach>
+		</select>
 	<br><br>
 	<input type="submit">
 </form>

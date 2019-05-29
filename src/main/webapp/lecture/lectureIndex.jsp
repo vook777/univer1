@@ -8,8 +8,8 @@
 <body>
 	<a href="${prefix}/">Back</a>
 	<br><br>
-	<a href="${prefix}/lecture/saveLecture.jsp">Save</a>
-	<a href="${prefix}/lecture/deleteLecture.jsp">Delete</a>
+	<a href="${prefix}/saveLectureForm">Save</a>
+	<a href="${prefix}/deleteLectureForm">Delete</a>
 	<a href="${prefix}/lecture/findLecture.jsp">Find</a>
 	<a href="${prefix}/showAllLectures">Show All</a>
 </body>

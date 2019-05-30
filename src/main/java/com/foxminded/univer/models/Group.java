@@ -6,7 +6,7 @@ import java.util.List;
 public class Group {
 
     private Integer id;
-    private Integer facultyId;
+    private Faculty faculty;
     private String name;
     private List<Student> students = new ArrayList<>();
 
@@ -18,12 +18,12 @@ public class Group {
         this.id = id;
     }
 
-    public Integer getFacultyId() {
-        return facultyId;
+    public Faculty getFaculty() {
+        return faculty;
     }
 
-    public void setFacultyId(Integer facultyId) {
-        this.facultyId = facultyId;
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 
     public String getName() {
@@ -69,6 +69,6 @@ public class Group {
 
     @Override
     public String toString() {
-        return "Group [ID= " + id + ", Name= " + name + ", Faculty ID = " + facultyId + "]";
+        return "Group [ID= " + id + ", Name= " + name + ", Faculty = " + faculty.getName() + "]";
     }
 }

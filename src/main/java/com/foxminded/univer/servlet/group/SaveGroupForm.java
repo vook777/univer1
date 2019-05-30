@@ -7,16 +7,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.foxminded.univer.dao.impl.FacultyDao;
+import com.foxminded.univer.service.FacultyService;
 
 @WebServlet("/saveGroupForm")
 public class SaveGroupForm extends HttpServlet {
 
-	private FacultyDao facultyDao = new FacultyDao();
+	private FacultyService facultyService = new FacultyService();
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			req.setAttribute("faculties", facultyDao.findAll());
+			req.setAttribute("faculties", facultyService.findAllFaculties());
 		} catch (ClassNotFoundException e) {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 		}

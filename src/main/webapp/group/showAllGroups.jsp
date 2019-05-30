@@ -12,7 +12,7 @@
     <tr>
         <th>ID</th>
         <th>Name</th>
-        <th>Faculty ID</th>
+        <th>Faculty</th>
     </tr>
     <c:forEach var="group" items="${requestScope.groups}">
     <tr>
@@ -23,7 +23,7 @@
             <c:out value="${group.name}" />
         </td>
         <td style="text-align:center">
-            <c:out value="${group.facultyId}" />
+            <c:out value="${group.faculty.name}" />
         </td>
     </tr>
     </c:forEach>

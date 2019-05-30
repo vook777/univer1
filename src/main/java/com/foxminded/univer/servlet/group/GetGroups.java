@@ -9,16 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.foxminded.univer.dao.impl.GroupDao;
+import com.foxminded.univer.service.GroupService;
 
 @WebServlet("/showAllGroups")
 public class GetGroups extends HttpServlet {
 
-    private GroupDao groupDao = new GroupDao();
+	private GroupService groupService = new GroupService();
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            req.setAttribute("groups", groupDao.findAll());
+            req.setAttribute("groups", groupService.findAllGroups());
         } catch (ClassNotFoundException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }

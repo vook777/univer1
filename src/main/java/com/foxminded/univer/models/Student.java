@@ -6,7 +6,7 @@ public class Student {
     private String studentCardNumber;
     private String firstName;
     private String lastName;
-    private Integer groupId;
+    private Group group;
 
     public Integer getId() {
         return id;
@@ -40,12 +40,12 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public Integer getGroupId() {
-        return groupId;
+    public Group getGroup() {
+        return group;
     }
 
-    public void setGroupId(Integer groupId) {
-        this.groupId = groupId;
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student [ID = " + id + ", Name = " + firstName + ", Last Name = " + lastName + ", Student Card Number = "
-                + studentCardNumber + ", Group ID = " + groupId + "]";
+        return "Student [ID = " + id + ", Name = " + firstName + " " + lastName + ", Student Card Number = "
+                + studentCardNumber + ", Group = " + group + "]";
     }
 }

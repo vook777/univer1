@@ -8,19 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.foxminded.univer.dao.impl.LectureDao;
+import com.foxminded.univer.service.LectureService;
 
 @WebServlet("/findLecture")
 public class FindLecture extends HttpServlet {
 
-    private LectureDao lectureDao = new LectureDao();
+    private LectureService lectureService = new LectureService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
     	Integer id = Integer.parseInt(req.getParameter("lectureId"));
     	try {
-            req.setAttribute("lecture", lectureDao.findById(id).get());
+            req.setAttribute("lecture", lectureService.findById(id));
         } catch (ClassNotFoundException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }

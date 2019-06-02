@@ -47,6 +47,7 @@ public class GroupDao extends JdbcDao implements Dao<Group> {
 			try (ResultSet resultSet = statement.getGeneratedKeys();) {
 				if (resultSet.next()) {
 					log.trace("Create group to return");
+					//group.setId(resultSet.getInt("id"));
 					group = findById(resultSet.getInt("id")).get();
 					log.info("Created " + group);
 				}
@@ -185,7 +186,6 @@ public class GroupDao extends JdbcDao implements Dao<Group> {
 		Group group = new Group();
 		group.setId(resultSet.getInt("id"));
 		group.setName(resultSet.getString("group_name"));
-		group.setStudents(studentDao.findByGroupId(group.getId()));
 		return group;
 	}
 

@@ -18,7 +18,7 @@ public class DeleteGroupForm extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			req.setAttribute("groups", groupService.findAllGroups());
+			req.setAttribute("groups", groupService.findAll());
 		} catch (ClassNotFoundException e) {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 		}

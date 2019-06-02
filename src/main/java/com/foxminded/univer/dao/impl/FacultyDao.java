@@ -16,11 +16,11 @@ import com.foxminded.univer.dao.Dao;
 import com.foxminded.univer.dao.DaoException;
 import com.foxminded.univer.dao.JdbcDao;
 import com.foxminded.univer.models.Faculty;
+import com.foxminded.univer.service.GroupService;
 
 public class FacultyDao extends JdbcDao implements Dao<Faculty> {
 
     private static final Logger log = LogManager.getLogger(FacultyDao.class);
-    private GroupDao groupDao = new GroupDao();
 
     @Override
     public Faculty save(Faculty faculty) throws ClassNotFoundException {
@@ -144,7 +144,6 @@ public class FacultyDao extends JdbcDao implements Dao<Faculty> {
         Faculty faculty = new Faculty();
         faculty.setId(resultSet.getInt("id"));
         faculty.setName(resultSet.getString("faculty_name"));
-        faculty.setGroups(groupDao.findByFacultyId(faculty.getId()));
         return faculty;
     }
 

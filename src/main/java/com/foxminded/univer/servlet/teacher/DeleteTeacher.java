@@ -8,21 +8,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.foxminded.univer.dao.impl.TeacherDao;
+import com.foxminded.univer.service.TeacherService;
 import com.foxminded.univer.models.Teacher;
 
 @WebServlet("/deleteTeacher")
 public class DeleteTeacher extends HttpServlet {
 
-	private TeacherDao teacherDao = new TeacherDao();
+	private TeacherService teacherService = new TeacherService();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		Integer id = Integer.parseInt(req.getParameter("teacherId"));
 		try {
-			Teacher teacherToDelete = teacherDao.findById(id).get();
-			teacherDao.delete(teacherToDelete);
+			Teacher teacherToDelete = teacherService.findById(id);
+			teacherService.delete(teacherToDelete);
 			req.setAttribute("deletedTeacher", teacherToDelete);
 		} catch (ClassNotFoundException e) {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());

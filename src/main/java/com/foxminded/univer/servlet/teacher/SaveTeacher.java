@@ -8,28 +8,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.foxminded.univer.dao.impl.TeacherDao;
+import com.foxminded.univer.service.TeacherService;
 import com.foxminded.univer.models.Teacher;
 
 @WebServlet("/saveTeacher")
 public class SaveTeacher extends HttpServlet {
 
-	private TeacherDao teacherDao = new TeacherDao();
+	private TeacherService teacherService = new TeacherService();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		Teacher teacherToSave = new Teacher();
-		if (req.getParameter("id").contentEquals("")) {
-			teacherToSave.setId(null);
-		} else {
-			teacherToSave.setId(Integer.parseInt(req.getParameter("id")));
+		Integer id = null;
+		if (!req.getParameter("id").contentEquals("")) {
+			id = Integer.parseInt(req.getParameter("id"));
 		}
-		teacherToSave.setFirstName(req.getParameter("firstName"));
-		teacherToSave.setFacultyId(Integer.parseInt(req.getParameter("facultyId")));
-		teacherToSave.setLastName(req.getParameter("lastName"));
+		String firstName = req.getParameter("firstName");
+		String lastName = req.getParameter("lastName");
+		Integer facultyId = Integer.parseInt(req.getParameter("facultyId"));
 		try {
-			Teacher savedTeacher = teacherDao.save(teacherToSave);
+			Teacher savedTeacher = teacherService.save(id, firstName, lastName, facultyId);
 			req.setAttribute("teacher", savedTeacher);
 		} catch (ClassNotFoundException e) {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());

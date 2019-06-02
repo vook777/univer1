@@ -7,25 +7,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.foxminded.univer.dao.impl.AuditoriumDao;
-import com.foxminded.univer.dao.impl.CourseDao;
-import com.foxminded.univer.dao.impl.GroupDao;
-import com.foxminded.univer.dao.impl.TeacherDao;
+import com.foxminded.univer.service.AuditoriumService;
+import com.foxminded.univer.service.CourseService;
+import com.foxminded.univer.service.GroupService;
+import com.foxminded.univer.service.TeacherService;
 
 @WebServlet("/saveLectureForm")
 public class SaveLectureForm extends HttpServlet {
 
-	private AuditoriumDao auditoriumDao = new AuditoriumDao();
-	private CourseDao courseDao = new CourseDao();
-	private GroupDao groupDao = new GroupDao();
-	private TeacherDao teacherDao = new TeacherDao();
+	private AuditoriumService auditoriumService = new AuditoriumService();
+	private CourseService courseService = new CourseService();
+	private GroupService groupService = new GroupService();
+	private TeacherService teacherService = new TeacherService();
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			req.setAttribute("auditoriums", auditoriumDao.findAll());
-			req.setAttribute("courses", courseDao.findAll());
-			req.setAttribute("groups", groupDao.findAll());
-			req.setAttribute("teachers", teacherDao.findAll());
+			req.setAttribute("auditoriums", auditoriumService.findAll());
+			req.setAttribute("courses", courseService.findAll());
+			req.setAttribute("groups", groupService.findAll());
+			req.setAttribute("teachers", teacherService.findAll());
 		} catch (ClassNotFoundException e) {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 		}

@@ -14,7 +14,7 @@
         <th>Name</th>
         <th>Last Name</th>
         <th>Card Number</th>
-        <th>Group ID</th>
+        <th>Group</th>
     </tr>
     <c:forEach var="student" items="${requestScope.students}">
     <tr>
@@ -31,7 +31,7 @@
             <c:out value="${student.studentCardNumber}" />
         </td>
         <td style="text-align:center">
-            <c:out value="${student.groupId}" />
+            <c:out value="${student.group.name}" />
         </td>
     </tr>
     </c:forEach>

@@ -9,7 +9,7 @@ public class FacultyService {
 
 	private FacultyDao facultyDao = new FacultyDao();
 
-	public List<Faculty> findAllFaculties() throws ClassNotFoundException {
+	public List<Faculty> findAll() throws ClassNotFoundException {
 		return facultyDao.findAll();
 	}
 }

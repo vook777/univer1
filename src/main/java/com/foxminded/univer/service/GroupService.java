@@ -12,17 +12,28 @@ public class GroupService {
 	private GroupDao groupDao = new GroupDao();
 	private FacultyDao facultyDao = new FacultyDao();
 	
+	public Group save(Integer id, String name, Integer facultyId) throws ClassNotFoundException {
+		Group groupToSave = new Group();
+		Faculty faculty = facultyDao.findById(facultyId).get();
+		groupToSave.setId(id);
+		groupToSave.setName(name);
+		groupToSave.setFaculty(faculty);
+		Group groupToReturn = groupDao.save(groupToSave);
+		groupToReturn.setFaculty(faculty);
+		return groupToReturn;
+	}
+
+	public void delete(Group group) throws ClassNotFoundException {
+		groupDao.delete(group);
+	}
+	
 	public Group findById(Integer groupId) throws ClassNotFoundException {
 		Group groupToReturn = groupDao.findById(groupId).get();
 		groupToReturn.setFaculty(facultyDao.findById(groupDao.getFacultyId(groupId)).get());
 		return groupToReturn;
 	}
 	
-	public void delete(Group group) throws ClassNotFoundException {
-		groupDao.delete(group);
-	}
-	
-	public List<Group> findAllGroups() throws ClassNotFoundException {
+	public List<Group> findAll() throws ClassNotFoundException {
 		List<Group> groups = groupDao.findAll();
 		groups.stream().forEach(group -> {
 			try {
@@ -34,14 +45,7 @@ public class GroupService {
 		return groups;
 	}
 	
-	public Group save(Integer id, String name, Integer facultyId) throws ClassNotFoundException {
-		Group groupToSave = new Group();
-		Faculty faculty = facultyDao.findById(facultyId).get();
-		groupToSave.setId(id);
-		groupToSave.setName(name);
-		groupToSave.setFaculty(faculty);
-		Group groupToReturn = groupDao.save(groupToSave);
-		groupToReturn.setFaculty(faculty);
-		return groupToReturn;
+	public List<Group> findByFacultyId(Integer facultyId) throws ClassNotFoundException {
+		return groupDao.findByFacultyId(facultyId);
 	}
 }

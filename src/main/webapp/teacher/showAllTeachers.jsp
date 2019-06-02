@@ -27,7 +27,7 @@
             <c:out value="${teacher.lastName}" />
         </td>
         <td style="text-align:center">
-            <c:out value="${teacher.facultyId}" />
+            <c:out value="${teacher.faculty.name}" />
         </td>
     </tr>
     </c:forEach>

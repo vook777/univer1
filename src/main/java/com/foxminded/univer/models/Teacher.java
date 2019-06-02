@@ -3,7 +3,7 @@ package com.foxminded.univer.models;
 public class Teacher {
 
     private Integer id;
-    private Integer facultyId;
+    private Faculty faculty;
     private String firstName;
     private String lastName;
 
@@ -15,12 +15,12 @@ public class Teacher {
         this.id = id;
     }
 
-    public Integer getFacultyId() {
-        return facultyId;
+    public Faculty getFaculty() {
+        return faculty;
     }
 
-    public void setFacultyId(Integer facultyId) {
-        this.facultyId = facultyId;
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 
     public String getFirstName() {
@@ -66,6 +66,6 @@ public class Teacher {
 
     @Override
     public String toString() {
-        return "Teacher [id=" + id + ", Name= " + firstName + ", Last Name=" + lastName + ", Faculty ID= " + facultyId + "]";
+        return "Teacher [id=" + id + ", Name= " + firstName + " " + lastName + ", Faculty = " + faculty + "]";
     }
 }

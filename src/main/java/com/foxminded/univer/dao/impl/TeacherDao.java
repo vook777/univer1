@@ -38,7 +38,7 @@ public class TeacherDao extends JdbcDao implements Dao<Teacher> {
         log.trace("Openinging connection, preparing statement");
         try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setInt(1, teacher.getFacultyId());
+            statement.setInt(1, teacher.getFaculty().getId());
             statement.setString(2, teacher.getFirstName());
             statement.setString(3, teacher.getLastName());
             log.debug("Executing PreparedStatement", statement);
@@ -64,7 +64,7 @@ public class TeacherDao extends JdbcDao implements Dao<Teacher> {
         log.trace("Opening connection, preparing statement");
         try (Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, teacher.getFacultyId());
+            statement.setInt(1, teacher.getFaculty().getId());
             statement.setString(2, teacher.getFirstName());
             statement.setString(3, teacher.getLastName());
             statement.setInt(4, teacher.getId());
@@ -140,11 +140,27 @@ public class TeacherDao extends JdbcDao implements Dao<Teacher> {
         }
         return allTeachers;
     }
+    
+    public Integer getFacultyId(Integer teacherId) throws ClassNotFoundException {
+		String query = "select faculty_id from teachers where id = ?";
+		Integer result = null;
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setInt(1, teacherId);
+			try (ResultSet resultSet = statement.executeQuery();) {
+				if (resultSet.next()) {
+					result = resultSet.getInt("faculty_id");
+				}
+			}
+		} catch (SQLException e) {
+			throw new DaoException("Cannot find faculty ID");
+		}
+		return result;
+	}
 
     private Teacher extractTeacherFromResultSet(ResultSet resultSet) throws SQLException {
         Teacher teacher = new Teacher();
         teacher.setId(resultSet.getInt("id"));
-        teacher.setFacultyId(resultSet.getInt("faculty_id"));
         teacher.setFirstName(resultSet.getString("first_name"));
         teacher.setLastName(resultSet.getString("last_name"));
         return teacher;

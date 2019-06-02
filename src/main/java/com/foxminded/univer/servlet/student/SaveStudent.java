@@ -8,30 +8,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.foxminded.univer.dao.impl.StudentDao;
+import com.foxminded.univer.service.StudentService;
 import com.foxminded.univer.models.Student;
 
 @WebServlet("/saveStudent")
 public class SaveStudent extends HttpServlet {
 
-	private StudentDao studentDao = new StudentDao();
+	private StudentService studentService = new StudentService();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		Student studentToSave = new Student();
-		if (req.getParameter("id").contentEquals("")) {
-			studentToSave.setId(null);
-		} else {
-			studentToSave.setId(Integer.parseInt(req.getParameter("id")));
+		Integer id = null;
+		if (!req.getParameter("id").contentEquals("")) {
+			id = Integer.parseInt(req.getParameter("id"));
 		}
-		studentToSave.setFirstName(req.getParameter("firstName"));
-		studentToSave.setGroupId(Integer.parseInt(req.getParameter("groupId")));
-		studentToSave.setLastName(req.getParameter("lastName"));
-		studentToSave.setStudentCardNumber(req.getParameter("studentCardNumber"));
+		String firstName = req.getParameter("firstName");
+		String lastName = req.getParameter("lastName");
+		Integer groupId = Integer.parseInt(req.getParameter("groupId"));
+		String studentCardNumber = req.getParameter("studentCardNumber");
 		try {
-			Student savedStudent = studentDao.save(studentToSave);
-			req.setAttribute("student", savedStudent);
+			req.setAttribute("student", studentService.save(id, firstName, lastName, groupId, studentCardNumber));
 		} catch (ClassNotFoundException e) {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 		}

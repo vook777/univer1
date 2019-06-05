@@ -15,9 +15,10 @@ import org.apache.logging.log4j.Logger;
 import com.foxminded.univer.dao.Dao;
 import com.foxminded.univer.dao.DaoException;
 import com.foxminded.univer.dao.JdbcDao;
+import com.foxminded.univer.dao.JndiDao;
 import com.foxminded.univer.models.Auditorium;
 
-public class AuditoriumDao extends JdbcDao implements Dao<Auditorium> {
+public class AuditoriumDao extends JndiDao implements Dao<Auditorium> {
 
 	private static final Logger log = LogManager.getLogger(AuditoriumDao.class);
 

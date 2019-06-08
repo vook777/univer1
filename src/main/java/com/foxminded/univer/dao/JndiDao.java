@@ -1,6 +1,7 @@
 package com.foxminded.univer.dao;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -11,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 public abstract class JndiDao {
 	
-	private static final Logger log = LogManager.getLogger(JdbcDao.class);
+	private static final Logger log = LogManager.getLogger(JndiDao.class);
 
 	public Connection getConnection() {
 		log.trace("Entered getConnection() method");
@@ -20,7 +21,7 @@ public abstract class JndiDao {
 			log.trace("Getting connection");
 			Context initContext = new InitialContext();
 			Context envContext = (Context) initContext.lookup("java:comp/env");
-			DataSource ds = (DataSource) envContext.lookup("jdbc/UsersDB");
+			DataSource ds = (DataSource) envContext.lookup("jdbc/university");
 			connection = ds.getConnection();
 			log.debug("Created " + connection);
 		} catch (Exception e) {

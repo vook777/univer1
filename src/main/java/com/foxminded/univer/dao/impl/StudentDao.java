@@ -14,10 +14,10 @@ import org.apache.logging.log4j.Logger;
 
 import com.foxminded.univer.dao.Dao;
 import com.foxminded.univer.dao.DaoException;
-import com.foxminded.univer.dao.JdbcDao;
+import com.foxminded.univer.dao.JndiDao;
 import com.foxminded.univer.models.Student;
 
-public class StudentDao extends JdbcDao implements Dao<Student> {
+public class StudentDao extends JndiDao implements Dao<Student> {
 
 	private static final Logger log = LogManager.getLogger(StudentDao.class);
 

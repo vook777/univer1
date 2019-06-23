@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+	<LECTURES id='2' course_id='2' auditorium_id='2' teacher_id='2' group_id='2' time='10:00:00'/>
+	<LECTURES id='3' course_id='3' auditorium_id='3' teacher_id='3' group_id='3' time='11:00:00'/>
+</dataset>

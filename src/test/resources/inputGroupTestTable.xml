@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+	<GROUPS id='1' group_name='M1' faculty_id='1'/>
+	<GROUPS id='2' group_name='B1' faculty_id='2'/>
+	<GROUPS id='3' group_name='H1' faculty_id='3'/>
+</dataset>

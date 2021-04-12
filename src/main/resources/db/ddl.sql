@@ -40,7 +40,7 @@ CREATE TABLE groups
 CREATE TABLE faculties 
 (
 	id serial primary key,
-	faculty_name VARCHAR (200),
+	faculty_name VARCHAR (200)
 );
 
 CREATE TABLE lectures 
